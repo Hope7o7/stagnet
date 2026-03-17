@@ -32,5 +32,15 @@ app.put("/data", (req, res) => {
   fbReq.write(body);
   fbReq.end();
 });
+const http = require("http");
+setInterval(() => {
+  http.get("http://stagnet.onrender.com/ping", (res) => {
+    console.log("Keep-alive ping:", res.statusCode);
+  }).on("error", (e) => {
+    console.error("Ping error:", e.message);
+  });
+}, 14 * 60 * 1000); // every 14 minutes
+
+app.get("/ping", (req, res) => res.send("pong"));
 
 app.listen(3000, () => console.log("Relay running"));
